@@ -2,6 +2,7 @@ from common_interfaces        import SensorType
 from random                   import uniform
 from factories.sensor_factory import register_sensor
 
+
 @register_sensor("thermometer")
 class ThermometerSensor(SensorType): 
     def __init__(self): 
@@ -41,3 +42,4 @@ class ThermometerSensor(SensorType):
             if self.values[-1] < 30:
                 actuator_on = not actuator_on
         return actuator_on
+    

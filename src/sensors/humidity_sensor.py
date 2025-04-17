@@ -2,6 +2,7 @@ from common_interfaces        import SensorType
 from random                   import uniform
 from factories.sensor_factory import register_sensor
 
+
 @register_sensor("humidity")
 class HumiditySensor(SensorType): 
     def __init__(self): 
@@ -41,3 +42,4 @@ class HumiditySensor(SensorType):
             if self.values[-1] > 60: 
                 actuator_on = not actuator_on # sopra il 60% avviso di spegnere la pompa
         return actuator_on
+    

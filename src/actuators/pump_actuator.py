@@ -31,4 +31,3 @@ class PumpActuator(ActuatorType):
     
     def is_on(self) -> bool: 
         return self.powered
-    

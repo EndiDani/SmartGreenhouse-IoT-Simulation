@@ -2,6 +2,7 @@ from common_interfaces        import SensorType
 from random                   import uniform
 from factories.sensor_factory import register_sensor
 
+
 class Sensor: 
     def __init__(self, id: str, sensor_type: SensorType): 
         self.id = id
@@ -28,7 +29,3 @@ class Sensor:
     
     def __str__(self) -> str: 
         return f"Sensor {self.id} - State: {self.state}" 
-
-
-
-    

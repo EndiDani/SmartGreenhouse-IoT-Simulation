@@ -2,6 +2,7 @@ from common_interfaces        import SensorType
 from random                   import uniform
 from factories.sensor_factory import register_sensor
 
+
 @register_sensor("air_quality")
 class AirQualitySensor(SensorType): 
     def __init__(self): 
@@ -37,5 +38,3 @@ class AirQualitySensor(SensorType):
             if self.values[-1] < 1000: 
                 actuator_on = not actuator_on
         return actuator_on
-
-  

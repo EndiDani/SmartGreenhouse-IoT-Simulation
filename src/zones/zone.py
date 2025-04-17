@@ -2,6 +2,7 @@ from typing                  import Dict, List, Any
 from sensors.sensor_base     import Sensor
 from actuators.actuator_base import Actuator
 
+
 class Zone: 
     def __init__(self, name: str, sensors: List[Sensor], actuators: List[Actuator], state: Dict[str, Any], neighbors: List[str]):
         self.name = name
@@ -29,6 +30,3 @@ class Zone:
 
     def get_state(self) -> Dict[str, Any]: 
         return self.state
-    
-
-        

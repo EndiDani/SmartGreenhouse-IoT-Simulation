@@ -14,8 +14,3 @@ class Actuator:
     def power_consumption(self) -> float:
         return self.actuator_type.get_consume()
       
-
-
-
-
-
