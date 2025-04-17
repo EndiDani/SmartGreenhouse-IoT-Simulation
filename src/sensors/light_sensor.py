@@ -6,13 +6,12 @@ from factories.sensor_factory import register_sensor
 @register_sensor("light")
 class LightSensor(SensorType): 
     def __init__(self): 
-        self.values = []
-        self.values.append(uniform(0., 4094.))
+        self.state = 0 #il valore sarà deciso dall'esterno
 
     def receive_data(self, received_data: float):
         # Questo puo essere inteso come un aumento di luce da fonti esterne al sensore
         # quindi un aumento non dipendente da altri sensori
-        self.values.append(self.values[-1] + received_data)
+        self.state = received_data
 
     def check_state(self) -> bool:
         # TODO: In futuro si potrebbbe pensare a un attuatore "tenda" per 
@@ -21,6 +20,6 @@ class LightSensor(SensorType):
         return False       
 
     def get_state(self) -> float: 
-        return self.values[-1]
+        return self.state
     
     # def actuator_on(self, actuator_on: bool) -> bool: ===> tenda 

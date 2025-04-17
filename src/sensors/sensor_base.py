@@ -5,9 +5,9 @@ from factories.sensor_factory import register_sensor
 
 class Sensor: 
     def __init__(self, id: str, sensor_type: SensorType): 
-        self.id = id
+        self.id          = id
         self.sensor_type = sensor_type
-        self.state = self.sensor_type.get_state()
+        self.state       = self.sensor_type.get_state()
 
     def receive_data(self, received_data: float): 
         # Il sensore iscritto al topic riceve il dato che lo influenzerà
@@ -17,8 +17,8 @@ class Sensor:
         self.state = self.sensor_type.get_state()
         # TODO: fare logica (e/o controllo che se un valore cambia notifica il sensore)
 
-    # def update_state(self): 
-    #    self.state = self.sensor_type.generate()
+    def check_state(self) -> bool: 
+        return self.sensor_type.check_state()
 
     def get_id(self) -> str: 
         return self.id

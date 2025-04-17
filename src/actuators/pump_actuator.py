@@ -2,6 +2,7 @@ from common_interfaces          import ActuatorType
 from datetime                   import datetime
 from factories.actuator_factory import register_actuator
 
+
 @register_actuator("pump")
 class PumpActuator(ActuatorType): 
     def __init__(self):

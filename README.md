@@ -12,9 +12,9 @@ I componenti simulati per la realizzazione della **serra agricola smart** sono p
 - Se > 35°C la **zona** è a rischio **stress termico**. 
 - Se < 10°C la **zona** è a rischio **congelamento tubature.**
 
-###### Pseudo-formula: relazione tra luce incidente e temperatura interna
+##### Pseudo-formula: relazione tra luce incidente e temperatura interna
 
-###### `ΔT ≈ (ΔL / 10) * k`
+##### `ΔT ≈ (ΔL / 10) * k`
 
 `ΔT` = variazione di temperatura in °C
 `ΔL` = variazione di luce in kLux (kilolux)
@@ -26,20 +26,19 @@ Esempio pratico: condizione iniziale con 25°C e luce incidente a 18kLux. La luc
 - `ΔT = (3.5 / 10) * 0.6 = 0.21°C`
 La temperatura stimata salirà da 25°C a circa **25.21°C**.
 
-###### Pseudo-formula: efficacia ventilatore sulla temperatura
-###### `ΔT_fan = – k_temp × `ΔT`
+##### Pseudo-formula: efficacia ventilatore sulla temperatura
+##### `ΔT_fan = – k_temp × `ΔT`
 
 `k_temp` = coefficiente che simula l'effetto del ventilatore sull'aria.
 
 ## 2. Umidità del suolo 
-*Suggerito in zona A e B*
 
 - Se < 30% -> **avvio irrigazione** (chiamata all'attuatore pompa).
 - *Si iscrive al topic della temperatura*: 
 	- troppo caldo -> evapora prima -> irrigazione più frequente
 
-###### Pseudo-formula: Calcolo della perdita di umidità in relazione al calore 
-###### `perdita_umidita = 0.1 * temperatura - 1.5   (limitata tra 0 e 5%)`
+##### Pseudo-formula: Calcolo della perdita di umidità in relazione al calore 
+##### `perdita_umidita = 0.1 * temperatura - 1.5   (limitata tra 0 e 5%)`
 
 Questa relazione è credibile in quanto mantiene **range e proporzioni sensate** (il suolo non evapora di 20% in un minuto), ha un comportamento **progressivo** e tiene conto di una fisica semplificata (più caldo = più evaporazione).
 
@@ -60,8 +59,8 @@ Questa relazione è credibile in quanto mantiene **range e proporzioni sensate**
 | 20°C        | 0.1×20 - 1.5 = 0.5 | 0.5%        |
 | 25°C        | 0.1×25 - 1.5 = 1.0 | 1.0%        |
 | 35°C        | 0.1×35 - 1.5 = 2.0 | 2.0%        |
-###### Pseudo-formula: guadagno umidità in relazione all'irrigazione
-###### `guadagno_umidità = irrigazione (5%) - perdita_umidita`
+##### Pseudo-formula: guadagno umidità in relazione all'irrigazione
+##### `guadagno_umidità = irrigazione (5%) - perdita_umidita`
 
 Per comprendere questa formula bisogna distinguere nettamente: 
 - **Evaporazione del suolo**: aumenta con la temperatura secondo la formula sopra riportata. 
@@ -94,15 +93,15 @@ Per comprendere questa formula bisogna distinguere nettamente:
 - *Si iscrive al topic finestra e ventilatore*
 	 - se è chiusa e CO₂ è alta -> anomalia!
 
-###### Pseudo-formula: generazione CO₂ nell'aria
-###### `ΔCO₂ = k * (C_out - C_in)`
+##### Pseudo-formula: generazione CO₂ nell'aria
+##### `ΔCO₂ = k * (C_out - C_in)`
 
 **Scomposizione formula**: 
 - **Coefficiente naturale** `k`: valore piccolo che fa sì che il sistema tenda lentamente al valore esterno (*nella simulazione, un valore randomico*).
 - Se C_in > C_out, ΔCO₂ è negativo (la CO₂ scende), altrimenti positivo.
 
-###### Pseudo-formula: efficacia del ventilatore sul CO₂
-###### `ΔCO₂_fan = -k_fan * C_in`
+##### Pseudo-formula: efficacia del ventilatore sul CO₂
+##### `ΔCO₂_fan = -k_fan * C_in`
 
 **Scomposizione formula**: 
 - **Coefficiente potenza ventilatore** `k_fan`: determina quanto rapidamente la ventola abbassa la CO₂.
@@ -121,8 +120,8 @@ Per comprendere questa formula bisogna distinguere nettamente:
 - *Si iscrive a tutti gli altri*
 	- se pompa consuma ma non c'è irrigazione -> anomalia.
 
-###### Pseudo-formula: Calcolo del consumo di energia degli attuatori
-###### `Energia (Wh) = Potenza(W) * Tempo (in ore)`
+##### Pseudo-formula: Calcolo del consumo di energia degli attuatori
+##### `Energia (Wh) = Potenza(W) * Tempo (in ore)`
 
 
 # Interazioni tra sensori

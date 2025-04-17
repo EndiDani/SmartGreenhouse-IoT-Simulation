@@ -1,5 +1,6 @@
 from common_interfaces import ActuatorType  
 
+
 class Actuator: 
     def __init__(self, id: str, actuator_type: ActuatorType): 
         self.id = id
