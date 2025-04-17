@@ -87,7 +87,6 @@ Per comprendere questa formula bisogna distinguere nettamente:
 
 
 ## 3. Qualità aria (CO₂)
-*Suggerito in zona D*
 
 - Se la CO₂ è alta -> **avvio ventola** (chiamata all'attuatore ventola).
 - *Si iscrive al topic finestra e ventilatore*
@@ -107,14 +106,12 @@ Per comprendere questa formula bisogna distinguere nettamente:
 - **Coefficiente potenza ventilatore** `k_fan`: determina quanto rapidamente la ventola abbassa la CO₂.
 - Calcolato sullo stato attuale di CO₂ nell'aria, simula un ricambio continuo.
 ## 4. Luce
-*Suggerito in zona A e B*
 
 - Se c'è troppa luce -> chiusura tende (*opzionale*)
 - *Si iscrive alla temperatura*
 	- luce alta -> temperatura alta 
 
 ## 5. Consumo energetico
-*Consigliato in zona E*
 
 - Rileva quanto pompe o ventilatore consumano e se consumano troppo.
 - *Si iscrive a tutti gli altri*
