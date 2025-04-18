@@ -15,11 +15,15 @@ class SensorType(ABC):
         pass
 
     @abstractmethod
+    def actuator_on(self, actuator_on: bool) -> bool: 
+        pass
+
+    @abstractmethod
     def get_state(self) -> float: 
         pass
 
     @abstractmethod
-    def actuator_on(self, actuator_on: bool) -> bool: 
+    def get_sensortype(self) -> str:
         pass
 
 
@@ -37,6 +41,10 @@ class ActuatorType(ABC):
         pass
 
     @abstractmethod
+    def is_on(self) -> bool: 
+        pass
+
+    @abstractmethod
     def get_time(self) -> float: 
         pass
 
@@ -45,6 +53,5 @@ class ActuatorType(ABC):
         pass
 
     @abstractmethod
-    def is_on(self) -> bool: 
+    def get_actuatortype(self) -> str:
         pass
-   

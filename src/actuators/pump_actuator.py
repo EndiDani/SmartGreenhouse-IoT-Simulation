@@ -21,6 +21,9 @@ class PumpActuator(ActuatorType):
             duration = datetime.now() - self.activation_start_time
             self.time_spent.append(duration.total_seconds())
 
+    def is_on(self) -> bool: 
+        return self.powered
+
     def get_time(self) -> float: 
         if self.powered:
             return datetime.now() - self.activation_start_time
@@ -29,6 +32,6 @@ class PumpActuator(ActuatorType):
     def get_consume(self) -> float: 
         hours = self.get_time() / 3600
         return self.power_rating * hours
-    
-    def is_on(self) -> bool: 
-        return self.powered
+
+    def get_actuatortype(self) -> str:
+        return "pump"
