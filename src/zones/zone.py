@@ -18,14 +18,14 @@ class Zone:
         self._create_actuator_dict(actuators)
     
     def _validate_env(self, sensors: List[Sensor], actuators: List[Actuator]): 
-        necessary_sensors = ["light", "thermometer", "air_quality", "humidity", "energy_consume"]
+        necessary_sensors = {"light", "thermometer", "air_quality", "humidity", "energy_consume"}
         sensor_types      = {sensor.get_sensortype() for sensor in sensors}
         missing_sensors   = necessary_sensors - sensor_types
 
         if missing_sensors:
             raise ValueError(f"Zone {self.name} missing sensors: {', '.join(missing_sensors)}")
         
-        necessary_actuators = ["vent", "pump"]
+        necessary_actuators = {"vent", "pump"}
         actuator_types      = {actuator.get_actuatortype() for actuator in actuators}
         missing_actuators   = necessary_actuators - actuator_types
 
@@ -43,13 +43,16 @@ class Zone:
             self.actuators[actuator.get_actuatortype()] = actuator
 
     def add_sensor(self, sensor: Sensor): 
-        self.sensors[sensor.get_sensortype] = sensor
+        if sensor.get_sensortype() not in self.sensors: 
+            self.sensors[sensor.get_sensortype()] = sensor
     
     def add_actuators(self, actuator: Actuator): 
-        self.actuators[actuator.get_actuatortype()] = actuator
+        if actuator.get_actuatortype() not in self.actuators: 
+            self.actuators[actuator.get_actuatortype()] = actuator
 
     def add_neighbors(self, zone: str): 
-        self.neighbors.append(zone)
+        if zone not in self.neighbors:
+            self.neighbors.append(zone)
 
     def collect_data(self): 
         for name, sensor in self.sensors.items(): 
@@ -74,6 +77,7 @@ class Zone:
             )
         return False
     
+    # TODO: estendere la possibilita che un sensore gestisca piu attuatori
     def _actuator_policy(self, sensors: List[str]): 
         policies = {
             "thermometer": "vent",
@@ -83,7 +87,10 @@ class Zone:
 
         actuator = {policies[sensor] for sensor in sensors}
         if len(actuator) != 1: 
-            raise ValueError(f"Inconsistent actuator policy among sensors: {sensors} : {actuator}")
+            raise ValueError(
+                f"Inconsistent actuator policy among sensors (actuactuators must be equal): {sensors} : {actuator}"
+            )
+        actuator = actuator.pop()
 
         maintenance_check = all(
             self.sensors[sensor_name].check_state() 
@@ -106,24 +113,11 @@ class Zone:
         self.sensors["thermometer"].receive_data(self.sensors["light"].get_state())
     
     def _handle_ventilation(self): 
-        maintenance_check = self.sensors["thermometer"].check_state() or self.sensors["air_quality"].check_state()
-
-        if maintenance_check and not self.actuators["vent"].is_on():
-            self.actuators["vent"].switch()
-        
-        if self._is_needed(actuator="vent", sensors=["thermometer", "air_quality"]):
-            self.actuators["vent"].switch()
+        self._actuator_policy(["thermometer", "air_quality"])
 
     def _handle_humidity_pump(self):
         self.sensors["humidity"].receive_data(self.sensors["thermometer"].get_state())
-
-        maintenance_check = self.sensors["humidity"].check_state() 
-
-        if maintenance_check and not self.actuators["pump"].is_on():
-            self.actuators["pump"].switch()
-
-        if self._is_needed(actuator="pump", sensors=["humidity"]):
-            self.actuators["pump"].switch()
+        self._actuator_policy(["humidity"])
     
     def _collect_energy(self): 
         self.sensors["energy_consume"].receive_data(self._energy_calculation())
