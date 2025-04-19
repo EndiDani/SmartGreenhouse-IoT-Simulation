@@ -17,3 +17,6 @@ class Actuator:
     
     def get_actuatortype(self) -> str:
         return self.actuator_type.get_actuatortype()
+
+    def get_id(self) -> str: 
+        return self.id
