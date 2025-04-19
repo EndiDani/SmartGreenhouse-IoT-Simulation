@@ -1,10 +1,10 @@
-from common_interfaces        import SensorType
+from common_interfaces        import ReactiveSensor
 from random                   import uniform
 from factories.sensor_factory import register_sensor
 
 
 @register_sensor("humidity")
-class HumiditySensor(SensorType): 
+class HumiditySensor(ReactiveSensor): 
     def __init__(self): 
         self.state = uniform(10., 90.)
 
@@ -26,15 +26,13 @@ class HumiditySensor(SensorType):
         return False
         
     # Invertiamo la formula per innalzare l'umidità
-    def actuator_on(self, actuator_on: bool) -> bool: 
-        if actuator_on:  
-            pump_gain   = 5.
-            net_gain    = pump_gain - self.evaporation_rate
-            self.state += net_gain
-            
-            if self.state > 60.: 
-                actuator_on = not actuator_on # sopra il 60% avviso di spegnere la pompa
-        return actuator_on
+    def actuator_on(self) -> bool: 
+        pump_gain   = 5.
+        net_gain    = pump_gain - self.evaporation_rate
+        self.state += net_gain
+        if self.state > 60.: 
+            return True
+        return False
 
     def get_state(self) -> float: 
         return self.state

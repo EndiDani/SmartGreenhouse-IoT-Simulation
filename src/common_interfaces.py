@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class SensorType(ABC): 
+class BasicSensor(ABC): 
     @abstractmethod
     def __init__(self): 
         pass 
@@ -11,19 +11,21 @@ class SensorType(ABC):
         pass
 
     @abstractmethod
-    def check_state(self) -> bool: 
-        pass
-
-    @abstractmethod
-    def actuator_on(self, actuator_on: bool) -> bool: 
-        pass
-
-    @abstractmethod
     def get_state(self) -> float: 
         pass
 
     @abstractmethod
     def get_sensortype(self) -> str:
+        pass
+
+
+class ReactiveSensor(BasicSensor): 
+    @abstractmethod
+    def check_state(self) -> bool: 
+        pass
+
+    @abstractmethod
+    def actuator_on(self) -> bool: 
         pass
 
 

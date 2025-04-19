@@ -1,6 +1,7 @@
-from sensors.sensor_base import Sensor
+from sensors.sensor import Sensor
+from typing         import Dict, Type
 
-SENSOR_REGISTRY = {}
+SENSOR_REGISTRY: Dict[str, Type[Sensor]] = {}
 
 def register_sensor(sensor_name): 
     def decorator(cls): 

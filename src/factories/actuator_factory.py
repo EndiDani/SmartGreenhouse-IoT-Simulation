@@ -1,6 +1,7 @@
-from actuators.actuator_base import Actuator
+from actuators.actuator import Actuator
+from typing             import Dict, Type
 
-ACTUATOR_REGISTRY = {}
+ACTUATOR_REGISTRY: Dict[str, Type[Actuator]] = {}
 
 def register_actuator(actuator_name): 
     def decorator(cls): 

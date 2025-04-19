@@ -1,10 +1,10 @@
-from common_interfaces        import SensorType
+from common_interfaces        import ReactiveSensor
 from random                   import uniform
 from factories.sensor_factory import register_sensor
 
 
 @register_sensor("thermometer")
-class ThermometerSensor(SensorType): 
+class ThermometerSensor(ReactiveSensor): 
     def __init__(self): 
         self.state = uniform(10, 40.)
         self.k     = 0.5
@@ -27,15 +27,14 @@ class ThermometerSensor(SensorType):
         # Controllo se il valore è sotto controllo
     # TODO: mettere il min e max nell'init da renderlo customizzabile
 
-    def actuator_on(self, actuator_on: bool) -> bool: 
-        if actuator_on:  
-            k_fan            = 0.01
-            self.delta_temp *= (-k_fan)
-            self.state      -= self.delta_temp
-            # k_fan: coefficiente efficacia ventilatore per la temperatura            
-            if self.state < 30.:
-                actuator_on = not actuator_on
-        return actuator_on
+    # k_fan: coefficiente efficacia ventilatore per la temperatura            
+    def actuator_on(self) -> bool: 
+        k_fan            = 0.01
+        self.delta_temp *= (-k_fan)
+        self.state      -= self.delta_temp
+        if self.state < 30.:
+            return True
+        return False
         
     def get_state(self) -> float: 
         return self.state

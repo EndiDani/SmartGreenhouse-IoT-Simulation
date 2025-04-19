@@ -1,5 +1,4 @@
 from common_interfaces        import SensorType
-from factories.sensor_factory import register_sensor
 
 
 class Sensor: 
@@ -19,7 +18,7 @@ class Sensor:
     def check_state(self) -> bool: 
         return self.sensor_type.check_state()
     
-    def actuator_on(self, actuator_on: bool) -> bool: 
+    def actuator_on(self) -> bool: 
         return self.sensor_type.actuator_on()
 
     def get_id(self) -> str: 
