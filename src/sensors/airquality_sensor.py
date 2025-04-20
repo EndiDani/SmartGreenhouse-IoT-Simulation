@@ -5,32 +5,34 @@ from factories.sensor_factory import register_sensor
 
 @register_sensor("air_quality")
 class AirQualitySensor(ReactiveSensor): 
-    def __init__(self): 
-        self.state = uniform(.400, 1500.) # ppm - parti per milione
+    def __init__(
+            self, 
+            min_ppm: float       = 400.,
+            max_ppm: float       = 1500., 
+            k: float             = 0.05, 
+            k_fan: float         = 0.02,
+            act_threshold: float = 1000.
+            ): 
+        self.state         = uniform(min_ppm, max_ppm)
+        self.min_ppm       = min_ppm
+        self.max_ppm       = max_ppm
+        self.k             = k
+        self.k_fan         = k_fan
+        self.act_threshold = act_threshold
 
+    # ΔCO₂ = k × (C_out – C_in)
     def receive_data(self, received_data: float):
-        k           = 0.005
-        delta_co2   = k * (received_data - self.state)
+        delta_co2   = self.k * (received_data - self.state)
         self.state += delta_co2
-        # Per ora intendo il sensore di qualita dell'aria solo come un sensore passivo
-        # Formula di simulazione: 
-        # ΔCO₂ = k × (C_out – C_in)
-        # k: piccolo coefficiente (fa sì che il sistema tenda lentamente al valore esterno (C_out ≈ 400 ppm))
+        self.state  = max(self.min_ppm, min(self.state, self.max_ppm + 500))
 
     def check_state(self) -> bool: 
-        if self.state> 1500.: 
-            return True
-        return False
-
-    # formula per ridurre il co2
-    # identifichiamo un coefficiente di efficacia per il ventilare con k_fan   
+        return self.state > self.max_ppm
+  
     def actuator_on(self) -> bool: 
-        k_fan         = 0.02
-        delta_co2_fan = -k_fan * self.state
+        delta_co2_fan = -self.k_fan * self.state
         self.state   -= delta_co2_fan
-        if self.state < 1000: 
-            return True
-        return False
+        return self.state < self.act_threshold
 
     def get_state(self) -> float: 
         return self.state

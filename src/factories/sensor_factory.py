@@ -9,8 +9,9 @@ def register_sensor(sensor_name):
         return cls
     return decorator
 
-def sensor_factory(sensor_type: str, id: str) -> Sensor: 
+def sensor_factory(sensor_type: str, *args, **kwargs) -> Sensor: 
     sensor_class = SENSOR_REGISTRY.get(sensor_type)   
     if not sensor_class: 
         raise ValueError(f"Unknown sensor type: {sensor_type}")
-    return Sensor(id, sensor_class())
+    instance = sensor_class(*args, **kwargs)
+    return Sensor(instance)

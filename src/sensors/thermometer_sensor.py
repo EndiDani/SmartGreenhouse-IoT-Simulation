@@ -5,36 +5,32 @@ from factories.sensor_factory import register_sensor
 
 @register_sensor("thermometer")
 class ThermometerSensor(ReactiveSensor): 
-    def __init__(self): 
-        self.state = uniform(10, 40.)
-        self.k     = 0.5
-        # coefficiente k: coefficiente assorbimento termico, ipotezziamo per ora a 0.5
-        # ci servirà per calcolare dopo il cambiamento di temperatura in base all'aumento della luce
-    # TODO: rendere il valore k assegnabile nell'init
+    def __init__(
+            self, 
+            min_temp: float      = 10., 
+            max_temp: float      = 35.,
+            k: float             = 0.5,
+            k_fan: float         = 0.01, 
+            act_threshold: float = 30.
+            ): 
+        self.state         = uniform(min_temp, max_temp)
+        self.k             = k
+        self.min_temp      = min_temp
+        self.max_temp      = max_temp
+        self.k_fan         = k_fan
+        self.act_threshold = act_threshold
 
+    # Δtemp = ( ΔLuminosità / 10 ) * k 
     def receive_data(self, received_data: float):
-        self.delta_temp = received_data / 10 * self.k
-        self.state     += self.delta_temp 
-        # Calcolo l'aumento di temp con questa formula: 
-        # - temp_nuova = temp_corrente + Δtemp
-        # -- Δtemp = ( ΔLuminosità / 10 ) * k 
-        # coefficiente k: coefficiente assorbimento termico, ipotezziamo per ora a 0.5
+        self.delta  = received_data / 10 * self.k
+        self.state += self.delta
 
     def check_state(self) -> float: 
-        if 10. < self.state < 35.: 
-            return False
-        return True
-        # Controllo se il valore è sotto controllo
-    # TODO: mettere il min e max nell'init da renderlo customizzabile
+        return not (self.min_temp < self.state < self.max_temp)
 
-    # k_fan: coefficiente efficacia ventilatore per la temperatura            
     def actuator_on(self) -> bool: 
-        k_fan            = 0.01
-        self.delta_temp *= (-k_fan)
-        self.state      -= self.delta_temp
-        if self.state < 30.:
-            return True
-        return False
+        self.state -= self.delta * self.k_fan
+        return self.state > self.act_threshold
         
     def get_state(self) -> float: 
         return self.state

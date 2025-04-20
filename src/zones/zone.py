@@ -9,12 +9,12 @@ class Zone:
     def __init__(self, name: str, sensors: List[Sensor], actuators: List[Actuator], neighbors: List[str]):
         self.name      = name
         self.neighbors = neighbors
-        self.X_light   = uniform(0.,   4094.)
-        self.X_co2     = uniform(400., 1600.)
-        self.state:      Dict[str, List[float]] = {}
+        self.X_light   = 0.
+        self.X_co2     = uniform(400., 1500.)
 
         self._validate_env(sensors, actuators)
         self._create_sensor_dict(sensors)
+        self._create_state_dict(sensors)
         self._create_actuator_dict(actuators)
     
     def _validate_env(self, sensors: List[Sensor], actuators: List[Actuator]): 
@@ -41,6 +41,11 @@ class Zone:
         self.actuators: Dict[str, Actuator] = {}
         for actuator in actuators: 
             self.actuators[actuator.get_actuatortype()] = actuator
+
+    def _create_state_dict(self, sensors: List[Sensor]):
+        self.state: Dict[str, List[float]] = {}
+        for sensor in sensors: 
+            self.state[sensor.get_sensortype()] = []
 
     def add_sensor(self, sensor: Sensor): 
         if sensor.get_sensortype() not in self.sensors: 
@@ -104,13 +109,16 @@ class Zone:
             self.actuators[actuator].switch()
     
     def _update_raw(self): 
-        self.X_light += uniform(-20., 20.)
-        self.X_co2   += uniform(-20., 20.)
+        self.X_light = uniform(-20., 20.)
 
+        delta_co2 = uniform(-20., 20.)
+        self.X_co2   += delta_co2
+
+    # TODO: implementare calo realistico della luce rilevato da thermoter che fa scendere la temp
     def _handle_light_air_temperature(self): 
         self.sensors["light"].receive_data(self.X_light)
         self.sensors["air_quality"].receive_data(self.X_co2)
-        self.sensors["thermometer"].receive_data(self.sensors["light"].get_state())
+        self.sensors["thermometer"].receive_data(self.X_light)
     
     def _handle_ventilation(self): 
         self._actuator_policy(["thermometer", "air_quality"])

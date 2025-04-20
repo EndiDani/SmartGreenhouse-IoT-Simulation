@@ -2,8 +2,7 @@ from common_interfaces import ActuatorType
 
 
 class Actuator: 
-    def __init__(self, id: str, actuator_type: ActuatorType): 
-        self.id = id
+    def __init__(self, actuator_type: ActuatorType): 
         self.actuator_type = actuator_type
     
     def switch(self): 
@@ -17,6 +16,3 @@ class Actuator:
     
     def get_actuatortype(self) -> str:
         return self.actuator_type.get_actuatortype()
-
-    def get_id(self) -> str: 
-        return self.id

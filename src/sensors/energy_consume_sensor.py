@@ -10,7 +10,6 @@ class EnergyConsumeSensor(BasicSensor):
     
     def receive_data(self, received_data: float):
         self.state = received_data
-        # I dati ricevuti saranno il consumo energetico degli attuatori
 
     def get_state(self) -> float: 
         return self.state + self.idle_power

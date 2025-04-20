@@ -5,34 +5,37 @@ from factories.sensor_factory import register_sensor
 
 @register_sensor("humidity")
 class HumiditySensor(ReactiveSensor): 
-    def __init__(self): 
-        self.state = uniform(10., 90.)
+    def __init__(
+            self, 
+            min_hum: float      = 30., 
+            max_hum: float      = 80.,
+            evap_coeff: float   = 0.1, 
+            evap_offset: float  = 1.5, 
+            pump_gain: float    = 5., 
+            act_threshold:float = 60.,
+            ): 
+        self.state            = uniform(min_hum, max_hum)
+        self.min_hum          = min_hum
+        self.max_hum          = max_hum
+        self.evap_coeff       = evap_coeff
+        self.evap_offset      = evap_offset
+        self.pump_gain        = pump_gain
+        self.act_treshold     = act_threshold
+        self.evaporation_rate = 0.
 
-    def receive_data(self, received_data: float): 
-        self.lastTemperature  = received_data
-        self.evaporation_rate = 0.1 * self.lastTemperature - 1.5
-        self.state           -= self.evaporation_rate
-        # la temperatura è aumentata, maggiore evaporazione -> umidità scende piu rapidamente
-        # formula molto approsimativa
-        # perdita_umidita = 0.1 * temperatura - 1.5
-        # per ogni grado in più perdo 0.1% di umidità per ciclo
-        # 1.5 è un offset per non avere evaporazione a temperature basse (t <= 15 ad esempio nn ha evaporazioni)
-        # es: t: 25 -> 0.1 * 25 * -1.5 = 1.0 --> ho perso 1% di umidità
-
-    # TODO: customizzare la percentuale di umidita minima
+    # Δumidità = evap_coeff * temp - evap_offset 
+    def receive_data(self, received_data: float):
+        rate = self.evap_coeff * received_data - self.evap_offset
+        self.evaporation_rate = max(rate, 0.0)
+        self.state -= self.evaporation_rate
+ 
     def check_state(self) -> bool:
-        if self.state < 30.:  
-            return True
-        return False
+        return self.state < self.min_hum
         
-    # Invertiamo la formula per innalzare l'umidità
     def actuator_on(self) -> bool: 
-        pump_gain   = 5.
-        net_gain    = pump_gain - self.evaporation_rate
+        net_gain = self.pump_gain - self.evaporation_rate
         self.state += net_gain
-        if self.state > 60.: 
-            return True
-        return False
+        return self.state > self.act_treshold
 
     def get_state(self) -> float: 
         return self.state

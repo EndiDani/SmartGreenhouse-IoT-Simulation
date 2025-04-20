@@ -39,15 +39,7 @@ class ActuatorType(ABC):
         pass
 
     @abstractmethod
-    def time_on(self): 
-        pass
-
-    @abstractmethod
     def is_on(self) -> bool: 
-        pass
-
-    @abstractmethod
-    def get_time(self) -> float: 
         pass
 
     @abstractmethod
