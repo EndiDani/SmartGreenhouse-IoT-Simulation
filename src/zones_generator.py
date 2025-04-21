@@ -120,4 +120,4 @@ def create_zones():
         neighbors=["B"]
     )
 
-    return [zone_A, zone_B, zone_C, zone_D, zone_E]
+    return {"A": zone_A, "B": zone_B, "C": zone_C, "D": zone_D, "E": zone_E}

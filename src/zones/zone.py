@@ -63,90 +63,29 @@ class Zone:
         for name, sensor in self.sensors.items(): 
             self.state[name].append(sensor.get_state()) 
 
-    def _energy_calculation(self) -> float: 
-        energy_consumed = 0.
+    def publish_sensor_data(self, mqtt_manager): 
+        self.collect_data() # Li salvo per avere uno storico
+        for name, sensor in self.sensors.items():
+            topic = f"greenhouse/{self.name}/{name}/raw"
+            mqtt_manager.publish(topic, sensor.get_state())
 
-        if self.actuators["pump"].is_on(): 
-            energy_consumed += self.actuators["pump"].get_consume()
-        
-        if self.actuators["vent"].is_on(): 
-            energy_consumed += self.actuators["vent"].get_consume()
+    def update_light(self, received_data: float):
+        self.sensors["light"].receive_data(received_data)
 
-        return energy_consumed
-    
-    def _is_needed(self, actuator: str, sensors: List[str]): 
-        if self.actuators[actuator].is_on():
-            return all(
-                self.sensors[sensor_name].actuator_on() 
-                for sensor_name in sensors
-            )
-        return False
-    
-    # TODO: estendere la possibilita che un sensore gestisca piu attuatori
-    def _actuator_policy(self, sensors: List[str]): 
-        policies = {
-            "thermometer": "vent",
-            "air_quality": "vent", 
-            "humidity":    "pump"
-        }
+    def update_thermometer(self, received_data: float): 
+        pass
 
-        actuator = {policies[sensor] for sensor in sensors}
-        if len(actuator) != 1: 
-            raise ValueError(
-                f"Inconsistent actuator policy among sensors (actuactuators must be equal): {sensors} : {actuator}"
-            )
-        actuator = actuator.pop()
+    def update_air_quality(self, received_data: float): 
+        pass
 
-        maintenance_check = all(
-            self.sensors[sensor_name].check_state() 
-            for sensor_name in sensors
-        )
+    def update_humidity(self, received_data: float): 
+        pass
 
-        if maintenance_check and not self.actuators[actuator].is_on(): 
-            self.actuators[actuator].switch()
-        
-        if self._is_needed(actuator, sensors): 
-            self.actuators[actuator].switch()
-    
-    def _update_raw(self): 
-        self.X_light = uniform(-20., 20.)
-
-        delta_co2 = uniform(-20., 20.)
-        self.X_co2   += delta_co2
-
-    # TODO: implementare calo realistico della luce rilevato da thermoter che fa scendere la temp
-    def _handle_light_air_temperature(self): 
-        self.sensors["light"].receive_data(self.X_light)
-        self.sensors["air_quality"].receive_data(self.X_co2)
-        self.sensors["thermometer"].receive_data(self.X_light)
-    
-    def _handle_ventilation(self): 
-        self._actuator_policy(["thermometer", "air_quality"])
-
-    def _handle_humidity_pump(self):
-        self.sensors["humidity"].receive_data(self.sensors["thermometer"].get_state())
-        self._actuator_policy(["humidity"])
-    
-    def _collect_energy(self): 
-        self.sensors["energy_consume"].receive_data(self._energy_calculation())
-
-    def workflow(self): 
-        self._update_raw()
-        self._handle_light_air_temperature()
-        self._handle_ventilation()
-        self._handle_humidity_pump()
-        self._collect_energy()
-        self.collect_data()        
-        # self.publish_sensor_data() 
+    def update_energy_consume(self, received_data: float): 
+        pass
 
     def get_state(self) -> Dict[str, float]: 
         return {sensor_id: values[-1] for sensor_id, values in self.state.items()}
     
     def get_name(self) -> str: 
         return self.name
-
-    def publish_sensor_data(self, mqtt_manager): 
-        for name, sensor in self.sensors.items():
-            topic = f"greenhouse/{self.name}/{name}"
-            mqtt_manager.publish(topic, sensor.get_state())
-
