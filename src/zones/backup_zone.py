@@ -145,8 +145,14 @@ class Zone:
     def get_name(self) -> str: 
         return self.name
 
+# MQTT: implementazione
     def publish_sensor_data(self, mqtt_manager): 
         for name, sensor in self.sensors.items():
             topic = f"greenhouse/{self.name}/{name}"
             mqtt_manager.publish(topic, sensor.get_state())
 
+# # # # # # #
+# Workflow
+    # X_light -> light_sens -> temp_sens -> umidity_sens ==> pump -> energy
+    #                              | ->         ===>         vent -> energy
+    # X_CO2      ->    air_sens      ===>       ===>         vent -> energy
