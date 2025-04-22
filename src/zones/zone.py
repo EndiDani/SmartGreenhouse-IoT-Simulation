@@ -63,26 +63,35 @@ class Zone:
         for name, sensor in self.sensors.items(): 
             self.state[name].append(sensor.get_state()) 
 
+    def _update_raw(self): 
+        self.X_light = uniform(-20., 20.)
+        self.X_co2  += uniform(-20., 20.)
+
+    def _update_sensors_state(self): 
+        self._update_raw()
+        self.sensors["light"].receive_data(self.X_light)
+        self.sensors["air_quality"].receive_data(self.X_co2)
+        
     def publish_sensor_data(self, mqtt_manager): 
         self.collect_data() # Li salvo per avere uno storico
-        for name, sensor in self.sensors.items():
-            topic = f"greenhouse/{self.name}/{name}/raw"
+        self._update_sensors_state()
+        sensors_to_publish = ("light", "air_quality", "thermometer")
+        for name in sensors_to_publish:
+            sensor = self.sensors[name]
+            topic  = f"greenhouse/{self.name}/{name}/raw"
             mqtt_manager.publish(topic, sensor.get_state())
 
-    def update_light(self, received_data: float):
-        self.sensors["light"].receive_data(received_data)
+    def update_sensor(self, sensor_name: str, data: float): 
+        self.sensors[sensor_name].receive_data(data)
 
-    def update_thermometer(self, received_data: float): 
-        pass
-
-    def update_air_quality(self, received_data: float): 
-        pass
-
-    def update_humidity(self, received_data: float): 
-        pass
-
-    def update_energy_consume(self, received_data: float): 
-        pass
+    def check_state_sensor(self, sensor_name: str) -> bool: 
+        return self.sensors[sensor_name].check_state()
+    
+    def sensor_actuator_effect(self, sensor_name: str) -> bool: 
+        return self.sensors[sensor_name].actuator_on()
+    
+    def get_actuator(self, actuator_name: str): 
+        return self.actuators[actuator_name]
 
     def get_state(self) -> Dict[str, float]: 
         return {sensor_id: values[-1] for sensor_id, values in self.state.items()}

@@ -8,8 +8,11 @@ class MqttManager:
         self.keep_alive_interval = keep_alive_interval
         self.client              = mqtt.Client()
     
-    def receive_zones_map(self, zones_map): 
-        self.zones_map = zones_map
+    def receive_graph(self, graph): 
+        self.graph = graph
+
+    def receive_zones_map(self, zones): 
+        self.zones = zones
 
     def on_connect(self, client, userdata, flags, rc): 
         if rc == 0: 
@@ -27,7 +30,8 @@ class MqttManager:
             # Conversione del payload in float
             try: 
                 payload_value = float(payload)
-                route_sensor_data(self.zones_map, zone, sensor_type, payload_value)
+                route_sensor_data(self.graph, self.zones[zone], sensor_type, payload_value)
+                
             except ValueError: 
                 print(f"Error: Pyaload '{payload}' is not a valid number.")
         else: 
