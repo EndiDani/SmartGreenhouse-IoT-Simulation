@@ -14,14 +14,14 @@ class HumiditySensor(ReactiveSensor):
             pump_gain: float    = 5., 
             act_threshold:float = 60.,
             ): 
-        self.state            = uniform(min_hum, max_hum)
-        self.min_hum          = min_hum
-        self.max_hum          = max_hum
-        self.evap_coeff       = evap_coeff
-        self.evap_offset      = evap_offset
-        self.pump_gain        = pump_gain
-        self.act_treshold     = act_threshold
-        self.evaporation_rate = 0.
+        self.state             = uniform(min_hum, max_hum)
+        self.min_hum           = min_hum
+        self.max_hum           = max_hum
+        self.evap_coeff        = evap_coeff
+        self.evap_offset       = evap_offset
+        self.pump_gain         = pump_gain
+        self.act_threshold     = act_threshold
+        self.evaporation_rate  = 0.
 
     # Δumidità = evap_coeff * temp - evap_offset 
     def receive_data(self, received_data: float):
@@ -35,7 +35,7 @@ class HumiditySensor(ReactiveSensor):
     def actuator_on(self) -> bool: 
         net_gain = self.pump_gain - self.evaporation_rate
         self.state += net_gain
-        return self.state > self.act_treshold
+        return self.state > self.act_threshold
 
     def get_state(self) -> float: 
         return self.state
@@ -45,14 +45,13 @@ class HumiditySensor(ReactiveSensor):
 
     def to_dict(self) -> dict:
         return {
-            "class": self.__class__.__name__,  
             "state": self.state,
             "min_hum": self.min_hum,
             "max_hum": self.max_hum,
             "evap_coeff": self.evap_coeff,
             "evap_offset": self.evap_offset,
             "pump_gain": self.pump_gain,
-            "act_treshold": self.act_treshold,
+            "act_threshold": self.act_threshold,
             "evaporation_rate": self.evaporation_rate,
         }
     
@@ -64,7 +63,7 @@ class HumiditySensor(ReactiveSensor):
             evap_coeff    = data["evap_coeff"],
             evap_offset   = data["evap_offset"],
             pump_gain     = data["pump_gain"],
-            act_threshold = data["act_treshold"]
+            act_threshold = data["act_threshold"]
         )
         sensor.state = data["state"]
         sensor.evaporation_rate = data["evaporation_rate"]

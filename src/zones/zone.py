@@ -81,18 +81,6 @@ class Zone:
             topic  = f"greenhouse/{self.name}/{name}/raw"
             mqtt_manager.publish(topic, sensor.get_state())
 
-    def update_sensor(self, sensor_name: str, data: float): 
-        self.sensors[sensor_name].receive_data(data)
-
-    def check_state_sensor(self, sensor_name: str) -> bool: 
-        return self.sensors[sensor_name].check_state()
-    
-    def sensor_actuator_effect(self, sensor_name: str) -> bool: 
-        return self.sensors[sensor_name].actuator_on()
-    
-    def get_actuator(self, actuator_name: str): 
-        return self.actuators[actuator_name]
-
     def get_state(self) -> Dict[str, float]: 
         return {sensor_id: values[-1] for sensor_id, values in self.state.items()}
     
@@ -104,11 +92,8 @@ class Zone:
         return {
             "name": self.name,
             "neighbors": self.neighbors,
-            "X_light": self.X_light,
-            "X_co2": self.X_co2,
             "sensors": {sensor_name: sensor.to_dict() for sensor_name, sensor in self.sensors.items()},
             "actuators": {actuator_name: actuator.to_dict() for actuator_name, actuator in self.actuators.items()},
-            "state": {sensor_name: sensor.get_state() for sensor_name, sensor in self.sensors.items()}
         }         
     
     @classmethod
@@ -123,7 +108,4 @@ class Zone:
             neighbors = data["neighbors"],
         )
 
-        zone.X_light = data["X_light"]
-        zone.X_co2   = data["X_co2"]
-        zone.state   = data["state"]
         return zone

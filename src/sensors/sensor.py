@@ -32,12 +32,7 @@ class Sensor:
         return f"Sensor {self.id} - State: {self.state}" 
     
     def to_dict(self):
-        return {
-            "class": self.sensor_type.__class__.__name__,  
-            "sensor_type": self.get_sensortype(),
-            # "state": self.get_state()
-            "state": self.sensor_type.to_dict()
-        }
+        return self.sensor_type.to_dict()
 
     @staticmethod
     def from_dict(data: dict) -> "Sensor":

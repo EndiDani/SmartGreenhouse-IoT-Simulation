@@ -18,10 +18,7 @@ class LightSensor(BasicSensor):
         return "light"
 
     def to_dict(self) -> dict:
-        return {
-            "class": self.__class__.__name__, 
-            "state": self.state,
-        }
+        return {"state": self.state}
     
     @staticmethod
     def from_dict(data: dict) -> "LightSensor":

@@ -42,7 +42,6 @@ class AirQualitySensor(ReactiveSensor):
 
     def to_dict(self) -> dict:
         return {
-            "class": self.__class__.__name__,  # "AirQualitySensor"
             "state": self.state,
             "min_ppm": self.min_ppm,
             "max_ppm": self.max_ppm,

@@ -18,11 +18,7 @@ class Actuator:
         return self.actuator_type.get_actuatortype()
 
     def to_dict(self): 
-        return {
-            "class": self.actuator_type.__class__.__name__,
-            "actuator_type": self.get_actuatortype(),
-            "state": self.actuator_type.to_dict()
-        }
+        return self.actuator_type.to_dict()
     
     @staticmethod
     def from_dict(data: dict) -> "Actuator":

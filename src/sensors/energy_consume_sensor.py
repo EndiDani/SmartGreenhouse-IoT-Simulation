@@ -19,7 +19,6 @@ class EnergyConsumeSensor(BasicSensor):
     
     def to_dict(self) -> dict:
         return {
-            "class": self.__class__.__name__, 
             "idle_power": self.idle_power,
             "state": self.state,
         }

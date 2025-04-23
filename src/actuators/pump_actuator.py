@@ -22,7 +22,6 @@ class PumpActuator(ActuatorType):
     
     def to_dict(self) -> dict: 
         return {
-            "class": self.__class__.__name__,
             "powered": self.powered,
             "power_rating": self.power_rating
         }

@@ -1,40 +1,24 @@
 from langgraph.graph             import StateGraph, START, END
-from typing                      import Annotated, TypedDict, List
+from typing                      import Annotated, TypedDict, List, Dict
 from operator                    import add
 from zones.zone                  import Zone
 from langgraph.checkpoint.memory import MemorySaver
 import json
 
 class State(TypedDict): 
-    type: str
-    payload: float
-    zone: str
-    light: float
-    temperature: float
-    air_quality: float
-    vent_on: bool
-    pump_on: bool
-    events: Annotated[List[str], add] # lista di eventi critici attivi
+    type:           str
+    payload:        float
+    zone:           str
+    zone_config:    Dict[str, float]
+    light:          float
+    temperature:    float
+    air_quality:    float
+    humidity:       float
+    energy_consume: float
+    vent_on:        bool
+    pump_on:        bool
+    events:         Annotated[List[str], add] # lista di eventi critici attivi
 
-
-def load_zone(zone_name: str) -> Zone: 
-    with open("zones/zones_data.json", "r") as f: 
-        zones_data = json.load(f)
-    
-    if zone_name not in zones_data: 
-        raise ValueError(f"[Error exception] {zone_name} is not a valid zone name")
-    
-    zone = zones_data[zone_name]
-    return Zone.from_dict(zone)
-
-def save_zone(zone: Zone): 
-    with open("zones/zones_data.json", "r") as f:
-        zones_data = json.load(f)
-    
-    zones_data[zone.get_name()] = zone.to_dict()
-    
-    with open("zones/zones_data.json", "w") as f:
-        json.dump(zones_data, f, indent=4)
 
 def subscribe_sensor_data(mqtt_manager): 
     topic = f"greenhouse/+/+/raw"
@@ -52,7 +36,7 @@ def route_sensor_data(graph, zone: Zone, sensor_type: str, payload: float):
     if not previous_state:
         print(f"[INFO] Stato non trovato per zona {thread_id}, inizializzo nuovo stato.")
         previous_state = {
-            "zone": thread_id,
+            "zone": zone.get_name(),
             "light": 0.0,
             "temperature": 0.0,
             "air_quality": 0.0,
@@ -90,19 +74,30 @@ def router_node(state: State):
         case _:
             return END
 
-        
+# -- Percorso sensore luce --
 def on_light_data(state: State) -> State:
     payload = state.pop("payload", None)
-    state["light"] += payload 
+    state["light"] = payload 
     print(f"[on_light_data] Updated light to {state['light']}\n")
     return state
 
+def compute_new_temperature(state: State) -> State: 
+    pass
+
+def need_vent(state: State) -> State: 
+    pass
+
+def actuate_vent(state: State) -> State: 
+    pass
+
+# -- Percorso sensore temperatura --
 def on_temperature_data(state: State) -> State:
     payload = state.pop("payload", None)
     state["temperature"] = payload
     print(f"[on_temperature_data] Updated temperature to {state['temperature']}\n")
     return state
 
+# -- Percorso sensore qualità aria --
 def on_air_quality_data(state: State) -> State:
     payload = state.pop("payload", None)
     state["air_quality"] = payload
@@ -129,3 +124,26 @@ graph_builder.add_edge("on_air_quality_data", END)
 # Implementa memory saver + thread nel main
 checkpointer = MemorySaver()
 graph = graph_builder.compile(checkpointer=checkpointer)
+
+
+
+'''
+def load_zone(zone_name: str) -> Zone: 
+    with open("zones/zones_data.json", "r") as f: 
+        zones_data = json.load(f)
+    
+    if zone_name not in zones_data: 
+        raise ValueError(f"[Error exception] {zone_name} is not a valid zone name")
+    
+    zone = zones_data[zone_name]
+    return Zone.from_dict(zone)
+
+def save_zone(zone: Zone): 
+    with open("zones/zones_data.json", "r") as f:
+        zones_data = json.load(f)
+    
+    zones_data[zone.get_name()] = zone.to_dict()
+    
+    with open("zones/zones_data.json", "w") as f:
+        json.dump(zones_data, f, indent=4)
+'''

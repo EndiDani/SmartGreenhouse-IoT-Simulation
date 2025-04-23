@@ -40,8 +40,6 @@ class ThermometerSensor(ReactiveSensor):
 
     def to_dict(self) -> dict:
         return {    
-            "class": self.__class__.__name__, 
-            "sensor_type": "thermometer",
             "state": self.state,
             "k": self.k,
             "min_temp": self.min_temp,
