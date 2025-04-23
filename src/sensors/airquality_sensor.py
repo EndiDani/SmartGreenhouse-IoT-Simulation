@@ -39,3 +39,26 @@ class AirQualitySensor(ReactiveSensor):
     
     def get_sensortype(self) -> str: 
         return "air_quality"
+
+    def to_dict(self) -> dict:
+        return {
+            "class": self.__class__.__name__,  # "AirQualitySensor"
+            "state": self.state,
+            "min_ppm": self.min_ppm,
+            "max_ppm": self.max_ppm,
+            "k": self.k,
+            "k_fan": self.k_fan,
+            "act_threshold": self.act_threshold,
+        }
+
+    @staticmethod
+    def from_dict(data: dict) -> "AirQualitySensor":
+        sensor = AirQualitySensor(
+            min_ppm       = data["min_ppm"],
+            max_ppm       = data["max_ppm"],
+            k             = data["k"],
+            k_fan         = data["k_fan"],
+            act_threshold = data["act_threshold"],
+        )
+        sensor.state = data["state"]
+        return sensor

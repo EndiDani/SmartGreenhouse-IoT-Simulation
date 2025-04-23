@@ -1,0 +1,485 @@
+{
+    "A": {
+        "name": "A",
+        "neighbors": [
+            "B",
+            "D"
+        ],
+        "X_light": 0.0,
+        "X_co2": 631.4387741201471,
+        "sensors": {
+            "thermometer": {
+                "class": "ThermometerSensor",
+                "sensor_type": "thermometer",
+                "state": {
+                    "class": "ThermometerSensor",
+                    "sensor_type": "thermometer",
+                    "state": 33.83655353228449,
+                    "k": 0.04,
+                    "min_temp": 20.0,
+                    "max_temp": 40.0,
+                    "k_fan": 0.02,
+                    "act_threshold": 33.0
+                }
+            },
+            "humidity": {
+                "class": "HumiditySensor",
+                "sensor_type": "humidity",
+                "state": {
+                    "class": "HumiditySensor",
+                    "state": 28.06050833063439,
+                    "min_hum": 25.0,
+                    "max_hum": 70.0,
+                    "evap_coeff": 0.12,
+                    "evap_offset": 1.0,
+                    "pump_gain": 6.0,
+                    "act_treshold": 50.0,
+                    "evaporation_rate": 0.0
+                }
+            },
+            "air_quality": {
+                "class": "AirQualitySensor",
+                "sensor_type": "air_quality",
+                "state": {
+                    "class": "AirQualitySensor",
+                    "state": 1246.096100487611,
+                    "min_ppm": 400.0,
+                    "max_ppm": 1500.0,
+                    "k": 0.03,
+                    "k_fan": 0.015,
+                    "act_threshold": 1000.0
+                }
+            },
+            "light": {
+                "class": "LightSensor",
+                "sensor_type": "light",
+                "state": {
+                    "class": "LightSensor",
+                    "state": 1000.0
+                }
+            },
+            "energy_consume": {
+                "class": "EnergyConsumeSensor",
+                "sensor_type": "energy_consume",
+                "state": {
+                    "class": "EnergyConsumeSensor",
+                    "idle_power": 6.3,
+                    "state": 0.0
+                }
+            }
+        },
+        "actuators": {
+            "vent": {
+                "class": "VentActuator",
+                "actuator_type": "vent",
+                "state": {
+                    "class": "VentActuator",
+                    "powered": false,
+                    "power_rating": 8.0
+                }
+            },
+            "pump": {
+                "class": "PumpActuator",
+                "actuator_type": "pump",
+                "state": {
+                    "class": "PumpActuator",
+                    "powered": false,
+                    "power_rating": 12.0
+                }
+            }
+        },
+        "state": {
+            "thermometer": 33.83655353228449,
+            "humidity": 28.06050833063439,
+            "air_quality": 1246.096100487611,
+            "light": 1000.0,
+            "energy_consume": 6.3
+        }
+    },
+    "B": {
+        "name": "B",
+        "neighbors": [
+            "A",
+            "E"
+        ],
+        "X_light": 0.0,
+        "X_co2": 1038.0023630485616,
+        "sensors": {
+            "thermometer": {
+                "class": "ThermometerSensor",
+                "sensor_type": "thermometer",
+                "state": {
+                    "class": "ThermometerSensor",
+                    "sensor_type": "thermometer",
+                    "state": 17.374160950066592,
+                    "k": 0.03,
+                    "min_temp": 15.0,
+                    "max_temp": 30.0,
+                    "k_fan": 0.02,
+                    "act_threshold": 28.0
+                }
+            },
+            "humidity": {
+                "class": "HumiditySensor",
+                "sensor_type": "humidity",
+                "state": {
+                    "class": "HumiditySensor",
+                    "state": 71.02230286249863,
+                    "min_hum": 40.0,
+                    "max_hum": 85.0,
+                    "evap_coeff": 0.08,
+                    "evap_offset": 1.2,
+                    "pump_gain": 5.5,
+                    "act_treshold": 65.0,
+                    "evaporation_rate": 0.0
+                }
+            },
+            "air_quality": {
+                "class": "AirQualitySensor",
+                "sensor_type": "air_quality",
+                "state": {
+                    "class": "AirQualitySensor",
+                    "state": 637.4559038736786,
+                    "min_ppm": 400.0,
+                    "max_ppm": 1400.0,
+                    "k": 0.04,
+                    "k_fan": 0.02,
+                    "act_threshold": 950.0
+                }
+            },
+            "light": {
+                "class": "LightSensor",
+                "sensor_type": "light",
+                "state": {
+                    "class": "LightSensor",
+                    "state": 1000.0
+                }
+            },
+            "energy_consume": {
+                "class": "EnergyConsumeSensor",
+                "sensor_type": "energy_consume",
+                "state": {
+                    "class": "EnergyConsumeSensor",
+                    "idle_power": 6.3,
+                    "state": 0.0
+                }
+            }
+        },
+        "actuators": {
+            "vent": {
+                "class": "VentActuator",
+                "actuator_type": "vent",
+                "state": {
+                    "class": "VentActuator",
+                    "powered": false,
+                    "power_rating": 8.0
+                }
+            },
+            "pump": {
+                "class": "PumpActuator",
+                "actuator_type": "pump",
+                "state": {
+                    "class": "PumpActuator",
+                    "powered": false,
+                    "power_rating": 12.0
+                }
+            }
+        },
+        "state": {
+            "thermometer": 17.374160950066592,
+            "humidity": 71.02230286249863,
+            "air_quality": 637.4559038736786,
+            "light": 1000.0,
+            "energy_consume": 6.3
+        }
+    },
+    "C": {
+        "name": "C",
+        "neighbors": [
+            "D"
+        ],
+        "X_light": 0.0,
+        "X_co2": 1282.748897624202,
+        "sensors": {
+            "thermometer": {
+                "class": "ThermometerSensor",
+                "sensor_type": "thermometer",
+                "state": {
+                    "class": "ThermometerSensor",
+                    "sensor_type": "thermometer",
+                    "state": 25.512813849014506,
+                    "k": 0.05,
+                    "min_temp": 22.0,
+                    "max_temp": 35.0,
+                    "k_fan": 0.02,
+                    "act_threshold": 31.0
+                }
+            },
+            "humidity": {
+                "class": "HumiditySensor",
+                "sensor_type": "humidity",
+                "state": {
+                    "class": "HumiditySensor",
+                    "state": 69.57641229014098,
+                    "min_hum": 60.0,
+                    "max_hum": 95.0,
+                    "evap_coeff": 0.09,
+                    "evap_offset": 1.0,
+                    "pump_gain": 5.0,
+                    "act_treshold": 75.0,
+                    "evaporation_rate": 0.0
+                }
+            },
+            "air_quality": {
+                "class": "AirQualitySensor",
+                "sensor_type": "air_quality",
+                "state": {
+                    "class": "AirQualitySensor",
+                    "state": 1181.7661519959915,
+                    "min_ppm": 400.0,
+                    "max_ppm": 1200.0,
+                    "k": 0.02,
+                    "k_fan": 0.01,
+                    "act_threshold": 850.0
+                }
+            },
+            "light": {
+                "class": "LightSensor",
+                "sensor_type": "light",
+                "state": {
+                    "class": "LightSensor",
+                    "state": 1000.0
+                }
+            },
+            "energy_consume": {
+                "class": "EnergyConsumeSensor",
+                "sensor_type": "energy_consume",
+                "state": {
+                    "class": "EnergyConsumeSensor",
+                    "idle_power": 6.3,
+                    "state": 0.0
+                }
+            }
+        },
+        "actuators": {
+            "vent": {
+                "class": "VentActuator",
+                "actuator_type": "vent",
+                "state": {
+                    "class": "VentActuator",
+                    "powered": false,
+                    "power_rating": 8.0
+                }
+            },
+            "pump": {
+                "class": "PumpActuator",
+                "actuator_type": "pump",
+                "state": {
+                    "class": "PumpActuator",
+                    "powered": false,
+                    "power_rating": 12.0
+                }
+            }
+        },
+        "state": {
+            "thermometer": 25.512813849014506,
+            "humidity": 69.57641229014098,
+            "air_quality": 1181.7661519959915,
+            "light": 1000.0,
+            "energy_consume": 6.3
+        }
+    },
+    "D": {
+        "name": "D",
+        "neighbors": [
+            "A",
+            "C"
+        ],
+        "X_light": 0.0,
+        "X_co2": 884.1730957112072,
+        "sensors": {
+            "thermometer": {
+                "class": "ThermometerSensor",
+                "sensor_type": "thermometer",
+                "state": {
+                    "class": "ThermometerSensor",
+                    "sensor_type": "thermometer",
+                    "state": 21.15572013087153,
+                    "k": 0.04,
+                    "min_temp": 18.0,
+                    "max_temp": 32.0,
+                    "k_fan": 0.02,
+                    "act_threshold": 30.0
+                }
+            },
+            "humidity": {
+                "class": "HumiditySensor",
+                "sensor_type": "humidity",
+                "state": {
+                    "class": "HumiditySensor",
+                    "state": 68.4482692395186,
+                    "min_hum": 50.0,
+                    "max_hum": 80.0,
+                    "evap_coeff": 0.1,
+                    "evap_offset": 1.5,
+                    "pump_gain": 5.0,
+                    "act_treshold": 60.0,
+                    "evaporation_rate": 0.0
+                }
+            },
+            "air_quality": {
+                "class": "AirQualitySensor",
+                "sensor_type": "air_quality",
+                "state": {
+                    "class": "AirQualitySensor",
+                    "state": 543.7690708384287,
+                    "min_ppm": 400.0,
+                    "max_ppm": 1300.0,
+                    "k": 0.03,
+                    "k_fan": 0.015,
+                    "act_threshold": 900.0
+                }
+            },
+            "light": {
+                "class": "LightSensor",
+                "sensor_type": "light",
+                "state": {
+                    "class": "LightSensor",
+                    "state": 1000.0
+                }
+            },
+            "energy_consume": {
+                "class": "EnergyConsumeSensor",
+                "sensor_type": "energy_consume",
+                "state": {
+                    "class": "EnergyConsumeSensor",
+                    "idle_power": 6.3,
+                    "state": 0.0
+                }
+            }
+        },
+        "actuators": {
+            "vent": {
+                "class": "VentActuator",
+                "actuator_type": "vent",
+                "state": {
+                    "class": "VentActuator",
+                    "powered": false,
+                    "power_rating": 8.0
+                }
+            },
+            "pump": {
+                "class": "PumpActuator",
+                "actuator_type": "pump",
+                "state": {
+                    "class": "PumpActuator",
+                    "powered": false,
+                    "power_rating": 12.0
+                }
+            }
+        },
+        "state": {
+            "thermometer": 21.15572013087153,
+            "humidity": 68.4482692395186,
+            "air_quality": 543.7690708384287,
+            "light": 1000.0,
+            "energy_consume": 6.3
+        }
+    },
+    "E": {
+        "name": "E",
+        "neighbors": [
+            "B"
+        ],
+        "X_light": 0.0,
+        "X_co2": 516.3122775160788,
+        "sensors": {
+            "thermometer": {
+                "class": "ThermometerSensor",
+                "sensor_type": "thermometer",
+                "state": {
+                    "class": "ThermometerSensor",
+                    "sensor_type": "thermometer",
+                    "state": 22.713270869299606,
+                    "k": 0.035,
+                    "min_temp": 16.0,
+                    "max_temp": 28.0,
+                    "k_fan": 0.02,
+                    "act_threshold": 26.0
+                }
+            },
+            "humidity": {
+                "class": "HumiditySensor",
+                "sensor_type": "humidity",
+                "state": {
+                    "class": "HumiditySensor",
+                    "state": 54.137569060166456,
+                    "min_hum": 45.0,
+                    "max_hum": 75.0,
+                    "evap_coeff": 0.07,
+                    "evap_offset": 1.3,
+                    "pump_gain": 5.5,
+                    "act_treshold": 55.0,
+                    "evaporation_rate": 0.0
+                }
+            },
+            "air_quality": {
+                "class": "AirQualitySensor",
+                "sensor_type": "air_quality",
+                "state": {
+                    "class": "AirQualitySensor",
+                    "state": 1198.4192006641806,
+                    "min_ppm": 400.0,
+                    "max_ppm": 1400.0,
+                    "k": 0.03,
+                    "k_fan": 0.015,
+                    "act_threshold": 950.0
+                }
+            },
+            "light": {
+                "class": "LightSensor",
+                "sensor_type": "light",
+                "state": {
+                    "class": "LightSensor",
+                    "state": 1000.0
+                }
+            },
+            "energy_consume": {
+                "class": "EnergyConsumeSensor",
+                "sensor_type": "energy_consume",
+                "state": {
+                    "class": "EnergyConsumeSensor",
+                    "idle_power": 6.3,
+                    "state": 0.0
+                }
+            }
+        },
+        "actuators": {
+            "vent": {
+                "class": "VentActuator",
+                "actuator_type": "vent",
+                "state": {
+                    "class": "VentActuator",
+                    "powered": false,
+                    "power_rating": 8.0
+                }
+            },
+            "pump": {
+                "class": "PumpActuator",
+                "actuator_type": "pump",
+                "state": {
+                    "class": "PumpActuator",
+                    "powered": false,
+                    "power_rating": 12.0
+                }
+            }
+        },
+        "state": {
+            "thermometer": 22.713270869299606,
+            "humidity": 54.137569060166456,
+            "air_quality": 1198.4192006641806,
+            "light": 1000.0,
+            "energy_consume": 6.3
+        }
+    }
+}

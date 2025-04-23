@@ -37,3 +37,27 @@ class ThermometerSensor(ReactiveSensor):
     
     def get_sensortype(self) -> str: 
         return "thermometer"
+
+    def to_dict(self) -> dict:
+        return {    
+            "class": self.__class__.__name__, 
+            "sensor_type": "thermometer",
+            "state": self.state,
+            "k": self.k,
+            "min_temp": self.min_temp,
+            "max_temp": self.max_temp,
+            "k_fan": self.k_fan,
+            "act_threshold": self.act_threshold,
+        }
+    
+    @staticmethod
+    def from_dict(data: dict) -> "ThermometerSensor":
+        sensor = ThermometerSensor(
+            min_temp      = data["min_temp"],
+            max_temp      = data["max_temp"],
+            k             = data["k"],
+            k_fan         = data["k_fan"],
+            act_threshold = data["act_threshold"],
+        )
+        sensor.state = data["state"] 
+        return sensor

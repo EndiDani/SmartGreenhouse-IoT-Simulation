@@ -30,3 +30,19 @@ class Sensor:
     
     def __str__(self) -> str: 
         return f"Sensor {self.id} - State: {self.state}" 
+    
+    def to_dict(self):
+        return {
+            "class": self.sensor_type.__class__.__name__,  
+            "sensor_type": self.get_sensortype(),
+            # "state": self.get_state()
+            "state": self.sensor_type.to_dict()
+        }
+
+    @staticmethod
+    def from_dict(data: dict) -> "Sensor":
+        from factories.sensor_factory import SENSOR_REGISTRY 
+
+        sensor_class = SENSOR_REGISTRY.get(data["sensor_type"])
+        sensor_type = sensor_class.from_dict(data["state"])
+        return Sensor(sensor_type)

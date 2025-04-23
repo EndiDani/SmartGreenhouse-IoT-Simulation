@@ -19,3 +19,17 @@ class PumpActuator(ActuatorType):
 
     def get_actuatortype(self) -> str:
         return "pump"
+    
+    def to_dict(self) -> dict: 
+        return {
+            "class": self.__class__.__name__,
+            "powered": self.powered,
+            "power_rating": self.power_rating
+        }
+    
+    @staticmethod
+    def from_dict(data: dict) -> "PumpActuator": 
+        actuator              = PumpActuator()
+        actuator.powered      = data["powered"]
+        actuator.power_rating = data["power_rating"]
+        return actuator

@@ -98,3 +98,32 @@ class Zone:
     
     def get_name(self) -> str: 
         return self.name
+
+    # Serializzazione di Zone
+    def to_dict(self) -> dict: 
+        return {
+            "name": self.name,
+            "neighbors": self.neighbors,
+            "X_light": self.X_light,
+            "X_co2": self.X_co2,
+            "sensors": {sensor_name: sensor.to_dict() for sensor_name, sensor in self.sensors.items()},
+            "actuators": {actuator_name: actuator.to_dict() for actuator_name, actuator in self.actuators.items()},
+            "state": {sensor_name: sensor.get_state() for sensor_name, sensor in self.sensors.items()}
+        }         
+    
+    @classmethod
+    def from_dict(cls, data: dict) -> 'Zone': 
+        sensors = [Sensor.from_dict(sensor) for sensor in data["sensors"].values()]
+        actuators = [Actuator.from_dict(actuator) for actuator in data["actuators"].values()]
+        
+        zone = cls(
+            name      = data["name"],
+            sensors   = sensors,
+            actuators = actuators,
+            neighbors = data["neighbors"],
+        )
+
+        zone.X_light = data["X_light"]
+        zone.X_co2   = data["X_co2"]
+        zone.state   = data["state"]
+        return zone

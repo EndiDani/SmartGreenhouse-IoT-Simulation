@@ -5,7 +5,6 @@ from factories.actuator_factory import register_actuator
 @register_actuator("vent")
 class VentActuator(ActuatorType): 
     def __init__(self):
-        self.time_spent   = 0.
         self.powered      = False
         self.power_rating = 8. # Wh 
     
@@ -20,3 +19,17 @@ class VentActuator(ActuatorType):
     
     def get_actuatortype(self) -> str:
         return "vent"
+
+    def to_dict(self) -> dict: 
+        return {
+            "class": self.__class__.__name__,
+            "powered": self.powered,
+            "power_rating": self.power_rating
+        }
+    
+    @staticmethod
+    def from_dict(data: dict) -> "VentActuator": 
+        actuator              = VentActuator()
+        actuator.powered      = data["powered"]
+        actuator.power_rating = data["power_rating"]
+        return actuator

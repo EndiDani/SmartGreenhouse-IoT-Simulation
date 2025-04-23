@@ -42,3 +42,30 @@ class HumiditySensor(ReactiveSensor):
     
     def get_sensortype(self) -> str: 
         return "humidity"
+
+    def to_dict(self) -> dict:
+        return {
+            "class": self.__class__.__name__,  
+            "state": self.state,
+            "min_hum": self.min_hum,
+            "max_hum": self.max_hum,
+            "evap_coeff": self.evap_coeff,
+            "evap_offset": self.evap_offset,
+            "pump_gain": self.pump_gain,
+            "act_treshold": self.act_treshold,
+            "evaporation_rate": self.evaporation_rate,
+        }
+    
+    @staticmethod
+    def from_dict(data: dict) -> "HumiditySensor":
+        sensor = HumiditySensor(
+            min_hum       = data["min_hum"],
+            max_hum       = data["max_hum"],
+            evap_coeff    = data["evap_coeff"],
+            evap_offset   = data["evap_offset"],
+            pump_gain     = data["pump_gain"],
+            act_threshold = data["act_treshold"]
+        )
+        sensor.state = data["state"]
+        sensor.evaporation_rate = data["evaporation_rate"]
+        return sensor

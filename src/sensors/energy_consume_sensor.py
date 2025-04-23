@@ -17,3 +17,16 @@ class EnergyConsumeSensor(BasicSensor):
     def get_sensortype(self) -> str: 
         return "energy_consume"
     
+    def to_dict(self) -> dict:
+        return {
+            "class": self.__class__.__name__, 
+            "idle_power": self.idle_power,
+            "state": self.state,
+        }
+    
+    @staticmethod
+    def from_dict(data: dict) -> "EnergyConsumeSensor":
+        sensor            = EnergyConsumeSensor()
+        sensor.idle_power = data["idle_power"]
+        sensor.state      = data["state"]
+        return sensor
