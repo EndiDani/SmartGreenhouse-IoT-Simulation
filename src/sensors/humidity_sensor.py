@@ -21,7 +21,6 @@ class HumiditySensor(ReactiveSensor):
         self.evap_offset       = evap_offset
         self.pump_gain         = pump_gain
         self.act_threshold     = act_threshold
-        self.evaporation_rate  = 0.
 
     # Δumidità = evap_coeff * temp - evap_offset 
     def receive_data(self, received_data: float):
@@ -52,7 +51,6 @@ class HumiditySensor(ReactiveSensor):
             "evap_offset": self.evap_offset,
             "pump_gain": self.pump_gain,
             "act_threshold": self.act_threshold,
-            "evaporation_rate": self.evaporation_rate,
         }
     
     @staticmethod
@@ -66,5 +64,4 @@ class HumiditySensor(ReactiveSensor):
             act_threshold = data["act_threshold"]
         )
         sensor.state = data["state"]
-        sensor.evaporation_rate = data["evaporation_rate"]
         return sensor

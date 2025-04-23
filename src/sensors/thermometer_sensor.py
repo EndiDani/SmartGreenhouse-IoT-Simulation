@@ -26,7 +26,7 @@ class ThermometerSensor(ReactiveSensor):
         self.state += self.delta
 
     def check_state(self) -> float: 
-        return not (self.min_temp < self.state < self.max_temp)
+        return not self.state < self.max_temp
 
     def actuator_on(self) -> bool: 
         self.state -= self.delta * self.k_fan

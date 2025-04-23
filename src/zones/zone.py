@@ -73,9 +73,9 @@ class Zone:
         self.sensors["air_quality"].receive_data(self.X_co2)
         
     def publish_sensor_data(self, mqtt_manager): 
-        self.collect_data() # Li salvo per avere uno storico
+        # self.collect_data() # Li salvo per avere uno storico
         self._update_sensors_state()
-        sensors_to_publish = ("light", "air_quality", "thermometer")
+        sensors_to_publish = ("light", "air_quality")
         for name in sensors_to_publish:
             sensor = self.sensors[name]
             topic  = f"greenhouse/{self.name}/{name}/raw"
