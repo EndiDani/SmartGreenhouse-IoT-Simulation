@@ -9,7 +9,7 @@ class LightSensor(BasicSensor):
         self.state = 1000.
 
     def receive_data(self, received_data: float):
-        self.state += received_data
+        self.state = received_data
     
     def get_state(self) -> float: 
         return self.state

@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-from   stategraph       import route_sensor_data
+from   stategraph.connection.route_sensor_data import route_sensor_data
 
 class MqttManager: 
     def __init__(self, broker_address, broker_port=1883, keep_alive_interval=60): 
