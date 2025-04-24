@@ -1,4 +1,4 @@
-from .router_node import router_checkpoint, router_route
+from .router_node import router, router_route
 from .on_light_data import on_light_data
 from .on_air_quality_data import on_air_quality_data
 
