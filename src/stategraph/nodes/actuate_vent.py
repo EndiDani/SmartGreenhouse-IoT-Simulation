@@ -2,7 +2,7 @@ from stategraph.state.state import State
 
 def actuate_vent(state: State) -> State: 
     events_to_add = []
-
+    steps_to_add  = []
     # Termometro:
     try: 
         delta_actuator = state["delta_temp"] * state["env"]["k_fan_temp"]
@@ -24,5 +24,12 @@ def actuate_vent(state: State) -> State:
     # Controllo ventola
     state["vent_on"] = check_temp or check_air_quality
 
-    print(f"[actuate_vent] Actuation completed:\nVent: {state['vent_on']}\nTemp: {state['thermometer']}\nAir quality: {state['air_quality']}\n")
-    return {"thermometer": state["thermometer"], "air_quality": state["air_quality"], "vent_on": state["vent_on"], "events": events_to_add}
+    steps_to_add.append(f"[actuate_vent] Actuation completed:\nVent: {state['vent_on']}\nTemp: {state['thermometer']}\nAir quality: {state['air_quality']}")
+    
+    return {
+        "thermometer": state["thermometer"], 
+        "air_quality": state["air_quality"], 
+        "vent_on": state["vent_on"], 
+        "steps": steps_to_add,
+        "events": events_to_add
+    }

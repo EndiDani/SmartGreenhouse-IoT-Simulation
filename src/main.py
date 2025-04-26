@@ -19,6 +19,7 @@ with open(zones_data_path, "w") as f:
 graph = build_stategraph()
 
 mqtt_manager = MqttManager(broker_address="localhost", broker_port=1883)
+mqtt_manager.start_async_loop()
 mqtt_manager.setup()
 
 mqtt_manager.receive_graph(graph)
@@ -26,9 +27,9 @@ mqtt_manager.receive_zones_map(zones_map)
 subscribe_sensor_data(mqtt_manager)
 
 # Test
-for i in range(1): 
-    zones_map["A"].publish_sensor_data(mqtt_manager)
-print("\n\n")
+for i in range(3): 
+    for _, zone in zones_map.items():
+        zone.publish_sensor_data(mqtt_manager)
 
 mqtt_manager.loop_forever()
 mqtt_manager.disconnect()

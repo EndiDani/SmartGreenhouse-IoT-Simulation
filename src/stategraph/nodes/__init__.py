@@ -1,4 +1,5 @@
-from .router_node import router, router_route
+from .router_node import router_route
+from .apply_passive_diffusion import inject_graph_passive_diffusion
 from .on_light_data import on_light_data
 from .on_air_quality_data import on_air_quality_data
 

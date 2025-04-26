@@ -13,7 +13,9 @@ class State(TypedDict):
     energy_consume:   float
     vent_on:          bool
     pump_on:          bool
+    neighbors:        List[str]
     env:              Dict[str, float]
+    steps:            Annotated[List[str], add] # traccia del grafo per tenerlo sequenziale anche in async
     events:           Annotated[List[str], add] # lista di eventi critici attivi
     payload:          float
     type:             str

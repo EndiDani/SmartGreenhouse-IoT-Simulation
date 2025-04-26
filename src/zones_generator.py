@@ -19,8 +19,8 @@ def create_zones():
     zone_A = Zone(
         name="A",
         sensors=[
-            sensor_factory("thermometer", min_temp=20.0, max_temp=40.0, k=0.04, k_fan=0.02, act_threshold=33.0),
-            sensor_factory("humidity", min_hum=25.0, max_hum=70.0, evap_coeff=0.12, evap_offset=1.0, pump_gain=6.0, act_threshold=50.0),
+            sensor_factory("thermometer", min_temp=20.0, max_temp=40.0, k=0.4, k_fan=0.02, act_threshold=33.0),
+            sensor_factory("humidity", min_hum=25.0, max_hum=70.0, evap_coeff=0.12, evap_offset=1.0, pump_gain=6.5, act_threshold=50.0),
             sensor_factory("air_quality", min_ppm=400.0, max_ppm=1500.0, k=0.03, k_fan=0.015, act_threshold=1000.0),
             sensor_factory("light"),
             sensor_factory("energy_consume")
@@ -41,7 +41,7 @@ def create_zones():
     zone_B = Zone(
         name="B",
         sensors=[
-            sensor_factory("thermometer", min_temp=15.0, max_temp=30.0, k=0.03, k_fan=0.02, act_threshold=28.0),
+            sensor_factory("thermometer", min_temp=15.0, max_temp=30.0, k=0.3, k_fan=0.02, act_threshold=28.0),
             sensor_factory("humidity", min_hum=40.0, max_hum=85.0, evap_coeff=0.08, evap_offset=1.2, pump_gain=5.5, act_threshold=65.0),  
             sensor_factory("air_quality", min_ppm=400.0, max_ppm=1400.0, k=0.04, k_fan=0.02, act_threshold=950.0),
             sensor_factory("light"),
@@ -63,7 +63,7 @@ def create_zones():
     zone_C = Zone(
         name="C",
         sensors=[
-            sensor_factory("thermometer", min_temp=22.0, max_temp=35.0, k=0.05, k_fan=0.02, act_threshold=31.0),
+            sensor_factory("thermometer", min_temp=22.0, max_temp=35.0, k=0.5, k_fan=0.02, act_threshold=31.0),
             sensor_factory("humidity", min_hum=60.0, max_hum=95.0, evap_coeff=0.09, evap_offset=1.0, pump_gain=5.0, act_threshold=75.0),
             sensor_factory("air_quality", min_ppm=400.0, max_ppm=1200.0, k=0.02, k_fan=0.01, act_threshold=850.0),
             sensor_factory("light"),
@@ -85,7 +85,7 @@ def create_zones():
     zone_D = Zone(
         name="D",
         sensors=[
-            sensor_factory("thermometer", min_temp=18.0, max_temp=32.0, k=0.04, k_fan=0.02, act_threshold=30.0),
+            sensor_factory("thermometer", min_temp=18.0, max_temp=32.0, k=0.4, k_fan=0.02, act_threshold=30.0),
             sensor_factory("humidity", min_hum=50.0, max_hum=80.0, evap_coeff=0.10, evap_offset=1.5, pump_gain=5.0, act_threshold=60.0),
             sensor_factory("air_quality", min_ppm=400.0, max_ppm=1300.0, k=0.03, k_fan=0.015, act_threshold=900.0),
             sensor_factory("light"),
@@ -107,7 +107,7 @@ def create_zones():
     zone_E = Zone(
         name="E",
         sensors=[
-            sensor_factory("thermometer", min_temp=16.0, max_temp=28.0, k=0.035, k_fan=0.02, act_threshold=26.0),
+            sensor_factory("thermometer", min_temp=16.0, max_temp=28.0, k=0.35, k_fan=0.02, act_threshold=26.0),
             sensor_factory("humidity", min_hum=45.0, max_hum=75.0, evap_coeff=0.07, evap_offset=1.3, pump_gain=5.5, act_threshold=55.0),
             sensor_factory("air_quality", min_ppm=400.0, max_ppm=1400.0, k=0.03, k_fan=0.015, act_threshold=950.0),
             sensor_factory("light"),

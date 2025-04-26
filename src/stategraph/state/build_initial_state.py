@@ -4,6 +4,7 @@ def build_initial_state(zone_name: str) -> dict:
     zones_data = load_zones_data(zone_name)
     sensors    = zones_data["sensors"]
     actuators  = zones_data["actuators"]
+    neighbors  = zones_data["neighbors"]
 
     initial_state = {
         "zone":             zones_data["name"],
@@ -17,6 +18,7 @@ def build_initial_state(zone_name: str) -> dict:
         "energy_consume":   sensors["energy_consume"]["state"],
         "vent_on":          actuators["vent"]["powered"],
         "pump_on":          actuators["pump"]["powered"],
+        "neighbors":        neighbors,
         "env": {
             # Termometro
             "k_temp":                 sensors["thermometer"]["k"],
@@ -44,6 +46,7 @@ def build_initial_state(zone_name: str) -> dict:
             # Pompa
             "power_rating_pump":      actuators["pump"]["power_rating"]
         },
+        "steps": [],
         "events": [],
     }
     return initial_state

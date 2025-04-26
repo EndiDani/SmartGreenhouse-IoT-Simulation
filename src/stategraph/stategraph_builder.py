@@ -2,9 +2,10 @@ from langgraph.graph                  import StateGraph, START, END
 from langgraph.checkpoint.memory      import MemorySaver
 from stategraph.state.state           import State
 from stategraph.nodes                 import (
-    router, router_route, on_light_data, on_air_quality_data,
+    router_route, on_light_data, on_air_quality_data,
     compute_new_temperature, compute_new_humidity, compute_energy_consume,
-    vent_action, pump_action, actuate_vent, actuate_pump, log_error_node
+    vent_action, pump_action, actuate_vent, actuate_pump, log_error_node,
+    inject_graph_passive_diffusion
 )
 
 def build_stategraph():
@@ -12,8 +13,12 @@ def build_stategraph():
     graph_builder = StateGraph(State)
 
     # -- Nodi --
+
+    # Separo il nodo per la comunicazione tra grafi dal nodo per recuperare il grafo
+    apply_passive_diffusion, set_graph = inject_graph_passive_diffusion()
+
     nodes = [
-        router,
+        apply_passive_diffusion,
         router_route, 
         on_light_data, 
         on_air_quality_data,
@@ -31,10 +36,11 @@ def build_stategraph():
         graph_builder.add_node(node.__name__, node)
     
     # -- Edges --
-    graph_builder.add_edge(START, "router")
+    # graph_builder.add_edge(START, "router")
+    graph_builder.add_edge(START, "apply_passive_diffusion")
 
     graph_builder.add_conditional_edges(
-        "router",
+        "apply_passive_diffusion",
         router_route,
         {
             "on_light_data": "on_light_data",
@@ -63,4 +69,6 @@ def build_stategraph():
 
     # -- Compilazione --
     checkpointer = MemorySaver()
-    return graph_builder.compile(checkpointer=checkpointer)
+    graph = graph_builder.compile(checkpointer=checkpointer)
+    set_graph(graph) # iniezione del grafo che permetterà la comunicazione tra grafi
+    return graph

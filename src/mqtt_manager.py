@@ -1,5 +1,7 @@
 import paho.mqtt.client as mqtt
 from   stategraph.connection.route_sensor_data import route_sensor_data
+import asyncio
+import threading
 
 class MqttManager: 
     def __init__(self, broker_address, broker_port=1883, keep_alive_interval=60): 
@@ -7,6 +9,9 @@ class MqttManager:
         self.broker_port         = broker_port
         self.keep_alive_interval = keep_alive_interval
         self.client              = mqtt.Client()
+        # Parte async
+        self.loop                = asyncio.new_event_loop()
+        self.loop_thread         = threading.Thread(target=self._start_loop, daemon=True)
     
     def receive_graph(self, graph): 
         self.graph = graph
@@ -20,6 +25,13 @@ class MqttManager:
         else: 
             print(f"Failed to connect with code {rc}")
 
+    def _start_loop(self): 
+        asyncio.set_event_loop(self.loop)
+        self.loop.run_forever()
+
+    def start_async_loop(self): 
+        self.loop_thread.start()
+
     def on_message(self, client, userdata, msg): 
         topic_parts = msg.topic.split("/")
         if len(topic_parts) >= 4: 
@@ -30,8 +42,17 @@ class MqttManager:
             # Conversione del payload in float
             try: 
                 payload_value = float(payload)
-                route_sensor_data(self.graph, self.zones[zone], sensor_type, payload_value)
-                
+                future = asyncio.run_coroutine_threadsafe(
+                    route_sensor_data(self.graph, self.zones[zone], sensor_type, payload_value),
+                    self.loop
+                )
+
+                # Debug
+                future.add_done_callback(
+                    lambda f: print(f"[ERROR] Task exception: {f.exception()}") 
+                    if f.exception() else None
+                )
+            
             except ValueError: 
                 print(f"Error: Pyaload '{payload}' is not a valid number.")
         else: 
