@@ -17,6 +17,14 @@ def inject_graph_passive_diffusion():
         delta_temp    = 0
         delta_hum     = 0
         
+        # Prints del primo nodo
+        steps_to_add.append(f"------ Zone {state['zone']} on topic [{state['type']}] ------\n")
+        steps_to_add.append(
+            "Actual state:\n\n" + "\n".join(
+                f"{k}: {v}" for k, v in state.items() if k not in ("zone", "env", "events", "steps", "type")
+            ) + "\n"
+        )
+
         try: 
             tasks = [
                 get_state_async(graph, {"configurable": {"thread_id": neighbor}})
@@ -40,14 +48,13 @@ def inject_graph_passive_diffusion():
             delta_temp *= state["env"]["k_temp"]
             delta_hum *= state["env"]["evap_coeff"]
 
-            steps_to_add.append(f"[apply_passive_diffusion] Temp influence: {delta_temp} -- Humidity influence: {delta_hum}")
+            steps_to_add.append(f"[apply_passive_diffusion] Temperature influence: {delta_temp}")
+            steps_to_add.append(f"[apply_passive_diffusion] Humidity influence: {delta_hum}")
         except Exception as e:  
             events_to_add.append(f"Error in communication between zones, from zone {state['zone']} -- {e}")
 
         state["thermometer"] += delta_temp
         state["humidity"] += delta_hum
-
-        steps_to_add.append(f"[apply_passive_diffusion] {state['zone']} - cross-zone Influence Completed")
         
         return {
             "thermometer": state["thermometer"], 

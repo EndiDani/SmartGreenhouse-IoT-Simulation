@@ -2,6 +2,7 @@ import paho.mqtt.client as mqtt
 from   stategraph.connection.route_sensor_data import route_sensor_data
 import asyncio
 import threading
+from   collections import defaultdict
 
 class MqttManager: 
     def __init__(self, broker_address, broker_port=1883, keep_alive_interval=60): 
@@ -12,6 +13,9 @@ class MqttManager:
         # Parte async
         self.loop                = asyncio.new_event_loop()
         self.loop_thread         = threading.Thread(target=self._start_loop, daemon=True)
+        # Coda per sincronizzare i topic
+        self.topic_queues        = defaultdict(asyncio.Queue)
+        self.global_semaphore    = asyncio.Semaphore(1)
     
     def receive_graph(self, graph): 
         self.graph = graph
@@ -32,6 +36,14 @@ class MqttManager:
     def start_async_loop(self): 
         self.loop_thread.start()
 
+    async def process_topic(self, zone, sensor_type, payload): 
+        async with self.global_semaphore: 
+            await self.topic_queues[zone].put((sensor_type, payload))
+            # Process dei messaggi in ordine
+            while not self.topic_queues[zone].empty(): 
+                sensor_type, payload = await self.topic_queues[zone].get()
+                await route_sensor_data(self.graph, self.zones[zone], sensor_type, payload)
+
     def on_message(self, client, userdata, msg): 
         topic_parts = msg.topic.split("/")
         if len(topic_parts) >= 4: 
@@ -43,7 +55,7 @@ class MqttManager:
             try: 
                 payload_value = float(payload)
                 future = asyncio.run_coroutine_threadsafe(
-                    route_sensor_data(self.graph, self.zones[zone], sensor_type, payload_value),
+                    self.process_topic(zone, sensor_type, payload_value),
                     self.loop
                 )
 

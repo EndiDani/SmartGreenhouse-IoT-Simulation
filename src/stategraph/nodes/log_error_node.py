@@ -12,10 +12,8 @@ def log_error_node(state: State) -> State:
 
     # Stampo tutti gli step del grafo con lock in modo che sia sequenziale
     with print_lock: 
-        print(f" -- Zone {state['zone']} on topic {state['type']} --")
         for step in (state["steps"] + steps_to_add): 
-            print(step)
-        print("\n\n")
+            print(f"{step}")
 
     state["steps"].clear()
 

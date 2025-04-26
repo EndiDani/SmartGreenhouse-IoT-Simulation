@@ -19,7 +19,7 @@ def actuate_vent(state: State) -> State:
     except Exception as e: 
         events_to_add.append(f"computation error in actuate_vent (air_quality): {str(e)}")
 
-    check_air_quality = state["air_quality"] > state["act_threshold_air"]
+    check_air_quality = state["air_quality"] > state["env"]["act_threshold_air"]
 
     # Controllo ventola
     state["vent_on"] = check_temp or check_air_quality

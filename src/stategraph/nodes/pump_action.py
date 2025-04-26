@@ -1,6 +1,6 @@
 from stategraph.state.state import State 
-from langgraph.types import Command
-from typing import Literal
+from langgraph.types        import Command
+from typing                 import Literal
 
 def pump_action(state: State) -> Command[Literal["actuate_pump","compute_energy_consume"]]:
     steps_to_add = []

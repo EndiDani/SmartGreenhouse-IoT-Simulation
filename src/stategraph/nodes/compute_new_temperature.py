@@ -16,5 +16,6 @@ def compute_new_temperature(state: State) -> State:
     return {
         "thermometer": state["thermometer"], 
         "delta_temp": state["delta_temp"], 
+        "steps": steps_to_add,
         "events": events_to_add
     }
