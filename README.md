@@ -82,7 +82,9 @@ This project was born from the need to build an intelligent, reactive IoT-based 
 
 ## Processing Flow
 
-![Greenhouse graph](src/graph.png)
+<p align="center">
+  <img src="src/graph.png" alt="GreenhouseGraph">
+</p>
 
 1. **Data Reception**  
     Sensor readings arrive as MQTT messages.
@@ -219,6 +221,8 @@ async def process_topic(self, zone, sensor_type, payload):
 	                payload
 	            )
 ```
+
+- **route_sensor_data**: updates the graph state, **activates calculation and action nodes**.
 
 ### Example output
 
@@ -480,7 +484,9 @@ The graph subscribes to all topics using wildcard characters (`+`) to intercept 
 
 # Graph Flow
 
-![Greenhouse graph](src/graph.png)
+<p align="center">
+  <img src="src/graph.png" alt="GreenhouseGraph">
+</p>
 
 ### 1. Apply Passive Diffusion (Initial node)
 
