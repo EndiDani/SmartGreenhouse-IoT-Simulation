@@ -1,4 +1,4 @@
-from common_interfaces          import ActuatorType  
+from common_interfaces import ActuatorType  
 
 
 class Actuator: 

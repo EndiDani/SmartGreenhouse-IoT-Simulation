@@ -13,7 +13,6 @@ def build_stategraph():
     graph_builder = StateGraph(State)
 
     # -- Nodi --
-
     # Separo il nodo per la comunicazione tra grafi dal nodo per recuperare il grafo
     apply_passive_diffusion, set_graph = inject_graph_passive_diffusion()
 
@@ -36,7 +35,6 @@ def build_stategraph():
         graph_builder.add_node(node.__name__, node)
     
     # -- Edges --
-    # graph_builder.add_edge(START, "router")
     graph_builder.add_edge(START, "apply_passive_diffusion")
 
     graph_builder.add_conditional_edges(

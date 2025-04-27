@@ -7,7 +7,7 @@
         ],
         "sensors": {
             "thermometer": {
-                "state": 29.430634885255053,
+                "state": 29.67175550169158,
                 "k": 0.4,
                 "min_temp": 20.0,
                 "max_temp": 40.0,
@@ -15,7 +15,7 @@
                 "act_threshold": 33.0
             },
             "humidity": {
-                "state": 55.436601211717566,
+                "state": 34.18449991801588,
                 "min_hum": 25.0,
                 "max_hum": 70.0,
                 "evap_coeff": 0.12,
@@ -24,7 +24,7 @@
                 "act_threshold": 50.0
             },
             "air_quality": {
-                "state": 881.7955348929581,
+                "state": 752.3756265923936,
                 "min_ppm": 400.0,
                 "max_ppm": 1500.0,
                 "k": 0.03,
@@ -58,7 +58,7 @@
         ],
         "sensors": {
             "thermometer": {
-                "state": 21.328667837739832,
+                "state": 19.88019284125518,
                 "k": 0.3,
                 "min_temp": 15.0,
                 "max_temp": 30.0,
@@ -66,7 +66,7 @@
                 "act_threshold": 28.0
             },
             "humidity": {
-                "state": 60.12517304652057,
+                "state": 53.93034953031445,
                 "min_hum": 40.0,
                 "max_hum": 85.0,
                 "evap_coeff": 0.08,
@@ -75,7 +75,7 @@
                 "act_threshold": 65.0
             },
             "air_quality": {
-                "state": 435.56349564305407,
+                "state": 818.3103642376618,
                 "min_ppm": 400.0,
                 "max_ppm": 1400.0,
                 "k": 0.04,
@@ -108,7 +108,7 @@
         ],
         "sensors": {
             "thermometer": {
-                "state": 25.326223494418823,
+                "state": 28.230760243782424,
                 "k": 0.5,
                 "min_temp": 22.0,
                 "max_temp": 35.0,
@@ -116,7 +116,7 @@
                 "act_threshold": 31.0
             },
             "humidity": {
-                "state": 82.9796963631733,
+                "state": 89.76891644227786,
                 "min_hum": 60.0,
                 "max_hum": 95.0,
                 "evap_coeff": 0.09,
@@ -125,7 +125,7 @@
                 "act_threshold": 75.0
             },
             "air_quality": {
-                "state": 940.4519712245265,
+                "state": 401.53202065208944,
                 "min_ppm": 400.0,
                 "max_ppm": 1200.0,
                 "k": 0.02,
@@ -159,7 +159,7 @@
         ],
         "sensors": {
             "thermometer": {
-                "state": 18.429605928421747,
+                "state": 18.344053687154187,
                 "k": 0.4,
                 "min_temp": 18.0,
                 "max_temp": 32.0,
@@ -167,7 +167,7 @@
                 "act_threshold": 30.0
             },
             "humidity": {
-                "state": 70.61069992326688,
+                "state": 52.52987629570965,
                 "min_hum": 50.0,
                 "max_hum": 80.0,
                 "evap_coeff": 0.1,
@@ -176,7 +176,7 @@
                 "act_threshold": 60.0
             },
             "air_quality": {
-                "state": 445.5042229287304,
+                "state": 694.8373667832086,
                 "min_ppm": 400.0,
                 "max_ppm": 1300.0,
                 "k": 0.03,
@@ -209,7 +209,7 @@
         ],
         "sensors": {
             "thermometer": {
-                "state": 20.621000389772455,
+                "state": 19.361251382321903,
                 "k": 0.35,
                 "min_temp": 16.0,
                 "max_temp": 28.0,
@@ -217,7 +217,7 @@
                 "act_threshold": 26.0
             },
             "humidity": {
-                "state": 59.502656845389424,
+                "state": 59.10501575123229,
                 "min_hum": 45.0,
                 "max_hum": 75.0,
                 "evap_coeff": 0.07,
@@ -226,7 +226,7 @@
                 "act_threshold": 55.0
             },
             "air_quality": {
-                "state": 1232.5877347241417,
+                "state": 656.2568486821958,
                 "min_ppm": 400.0,
                 "max_ppm": 1400.0,
                 "k": 0.03,

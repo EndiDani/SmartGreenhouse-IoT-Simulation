@@ -3,7 +3,6 @@ from sensors.sensor     import Sensor
 from actuators.actuator import Actuator
 from random             import uniform
 
-# TODO: aggiungere calcolo media, max, min, ecc..
 
 class Zone: 
     def __init__(self, name: str, sensors: List[Sensor], actuators: List[Actuator], neighbors: List[str]):

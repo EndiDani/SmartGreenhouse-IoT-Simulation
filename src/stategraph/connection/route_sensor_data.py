@@ -20,7 +20,7 @@ async def route_sensor_data(graph, zone: Zone, sensor_type: str, payload: float)
         previous_state = graph.get_state(config).values
         print(f"[INFO] Loaded previous state, starting with topic: {sensor_type}\n")
 
-    # Aggiornamento stato con i valori nuoivi
+    # Aggiornamento stato con i valori nuovi
     previous_state["type"] = sensor_type
     previous_state["payload"] = payload
 
