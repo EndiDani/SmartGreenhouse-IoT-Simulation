@@ -1,5 +1,5 @@
 
-# Smart Greenhouse Simulation Project
+# Smart Greenhouse Simulation Project 🌱
 
 ## Introduction
 
